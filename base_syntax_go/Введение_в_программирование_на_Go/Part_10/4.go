@@ -4,12 +4,12 @@ package main
 
 import "fmt"
 
-func main() {
-    c := Min
-    fmt.Println(c)
-    b := Max
-    fmt.Println(b)
-}
+// func main() {
+//     c := Min
+//     fmt.Println(c)
+//     b := Max
+//     fmt.Println(b)
+// }
 
 func average(xs []float64) float64 {    
     total := 0.0
