@@ -1,0 +1,41 @@
+// // HTTP-серверы еще проще в настройке и использовании:
+
+// package main 
+
+// import (
+// 	"net/http"
+// 	"io"
+// )
+// func hello(res http.ResponseWriter, req *http.Request) {
+// 	res.Header().Set(
+// 		"Content-Type",
+// 		"text/html",
+// 	)
+// 	io.WriteString(
+// 		res,
+// 		`<doctype html
+// <html>
+// 	<head>
+// 		<title>Hello World</title>
+// 	</head>
+// 	<body>
+// 		Hello World!
+// 	</body>
+// </html>`,
+// 	)
+// }
+// func main() {
+// 	http.HandleFunc("/hello", hello)
+// 	http.ListenAndServe(":9000", nil)
+// }
+
+// // HandleFunc обрабатываетURL-маршрут (/hello) с помощью указанной функции.
+// // Мы так же можем обрабатывать статические файлы при помощи FileServer:
+
+http.Handle(
+    "/assets/", 
+    http.StripPrefix(
+        "/assets/", 
+        http.FileServer(http.Dir("assets")),
+    ),
+)
