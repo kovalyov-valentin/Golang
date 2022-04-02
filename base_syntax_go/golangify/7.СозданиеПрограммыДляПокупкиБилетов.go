@@ -31,10 +31,6 @@
 
 // 	fmt.Println("Spaceline        Days Trip type  Price")
 // 	fmt.Println("=======================================")
-// 	// duration :=
-// 	// tripType :=
-// 	// price :=
-// 	// speed :=
 // 	for ticket := 0; ticket < 10; ticket++ {
 // 		switch rand.Intn(3) {
 // 		case 0:
