@@ -9,11 +9,15 @@ import (
 
 type number struct {
 	A int `json:"a"`
-	B int `json:"b"`
+	B int `json:"b,omitempty"`
 }
 
 type add struct {
 	C int `json:"c"`
+}
+
+type div struct {
+	D float32 `json:"d"`
 }
 
 func hello(w http.ResponseWriter, req *http.Request) {
@@ -99,14 +103,28 @@ func subtraction(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 	err = nil
-	var numb number
-	err = json.Unmarshal(buf, &numb)
+	var request number
+	err = json.Unmarshal(buf, &request)
 	if err != nil {
 		fmt.Println(err)
 		w.WriteHeader(500)
 		return
 	}
-	fmt.Println()
+	var response add
+	response.C = request.A - request.B
+
+	b, err := json.Marshal(&response)
+	if err != nil {
+		w.WriteHeader(500)
+		return
+	}
+
+	n, err := w.Write(b)
+	if err != nil {
+		w.WriteHeader(500)
+		return
+	}
+	fmt.Println("Количество считанных байт", n)
 	fmt.Println(req.Method)
 	fmt.Println(string(buf))
 }
@@ -119,20 +137,33 @@ func multiplication(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 	err = nil
-	var numb number
-	err = json.Unmarshal(buf, &numb)
+	var request number
+	err = json.Unmarshal(buf, &request)
 	if err != nil {
 		fmt.Println(err)
 		w.WriteHeader(500)
 		return
 	}
-	fmt.Println()
+	var response add
+	response.C = request.A * request.B
+
+	b, err := json.Marshal(&response)
+	if err != nil {
+		w.WriteHeader(500)
+		return
+	}
+
+	n, err := w.Write(b)
+	if err != nil {
+		w.WriteHeader(500)
+		return
+	}
+
+	fmt.Println("Количество считанных байт", n)
 	fmt.Println(req.Method)
 	fmt.Println(string(buf))
 }
 func division(w http.ResponseWriter, req *http.Request) {
-
-    // если делить на ноль w.WriteHeader(400) через if
 
 	buf, err := ioutil.ReadAll(req.Body)
 	if err != nil {
@@ -140,15 +171,36 @@ func division(w http.ResponseWriter, req *http.Request) {
 		fmt.Println(err)
 		return
 	}
+
 	err = nil
-	var numb number
-	err = json.Unmarshal(buf, &numb)
+	var request number
+	err = json.Unmarshal(buf, &request)
 	if err != nil {
 		fmt.Println(err)
 		w.WriteHeader(500)
 		return
 	}
-	fmt.Println()
+	if request.B <= 0 {
+		w.WriteHeader(400)
+		return
+	}
+
+	var response div
+	response.D = float32(request.A) / float32(request.B)
+
+	b, err := json.Marshal(&response)
+	if err != nil {
+		w.WriteHeader(500)
+		return
+	}
+
+	n, err := w.Write(b)
+	if err != nil {
+		w.WriteHeader(500)
+		return
+	}
+
+	fmt.Println("Количество записанных байтов", n)
 	fmt.Println(req.Method)
 	fmt.Println(string(buf))
 }
@@ -169,6 +221,9 @@ func main() {
 	http.HandleFunc("/bye", bye)
 
 	http.HandleFunc("/addition", addition)
+	http.HandleFunc("/subtraction", subtraction)
+	http.HandleFunc("/multiplication", multiplication)
+	http.HandleFunc("/division", division)
 
 	http.ListenAndServe(":8090", nil)
 }
