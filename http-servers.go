@@ -20,6 +20,7 @@ type div struct {
 	D float32 `json:"d"`
 }
 
+
 func hello(w http.ResponseWriter, req *http.Request) {
 	fmt.Fprintf(w, "Hello\n")
 
@@ -213,6 +214,7 @@ func headers(w http.ResponseWriter, req *http.Request) {
 		}
 	}
 }
+
 
 func main() {
 

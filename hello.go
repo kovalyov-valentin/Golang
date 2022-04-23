@@ -1,9 +1,9 @@
-package main
+// package main
 
-import "fmt"
+// import "fmt"
 
-// one code
+// // one code
 
-func main() {
-	fmt.Println("Hello, world")
-}
+// func main() {
+// 	fmt.Println("Hello, world")
+// }
