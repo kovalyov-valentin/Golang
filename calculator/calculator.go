@@ -51,7 +51,7 @@ func calculator(w http.ResponseWriter, req *http.Request) {
 	var operator rune
 	
 	// Обрабатываем возможную ошибку запроса
-	if len(requ.Req) == 0{
+	if len(requ.Req) == 0 {
 		w.WriteHeader(404)
 		return 
 	} 
@@ -72,7 +72,7 @@ func calculator(w http.ResponseWriter, req *http.Request) {
 	str := strings.Split(requ.Req, string(operator))
 		fmt.Println(str[0], str[1])
 
-		// Из того, что мы спарсили получаем число а из string
+	// Из того, что мы спарсили получаем число а из string
 	a, err := strconv.Atoi(str[0])
 	if err != nil {
 		w.WriteHeader(500)
