@@ -8,7 +8,7 @@ import (
 )
 
 // Структура запроса
-type name struct {
+type userProfile struct {
 	LastName   string `json:"last"`
 	FirstName  string `json:"first"`
 	MiddleName string `json:"middle"`
@@ -16,12 +16,12 @@ type name struct {
 }
 
 type filters struct {
-	Id   string `json:"id,omitempty"`
+	Id   int    `json:"id,omitempty"`
 	Name string `json:"name,omitempty"`
 }
 
 // Объявляем глобальную переменную, состоящую из срезов типа name
-var bd []name
+var bd []userProfile
 
 // Функция обработчика для пути /v1/user/name
 func user(w http.ResponseWriter, req *http.Request) {
@@ -35,18 +35,18 @@ func user(w http.ResponseWriter, req *http.Request) {
 	}
 
 	// Создаем переменную типа name
-	var userProfile name
+	var user userProfile
 
 	// Переводим байты в нужную нам структуру
-	err = json.Unmarshal(buf, &userProfile)
+	err = json.Unmarshal(buf, &user)
 	if err != nil {
 		fmt.Println(err)
 		w.WriteHeader(500)
 		return
 	}
-	// fmt.Println(userProfile)
+	// fmt.Println(user)
 
-	bd = append(bd, userProfile)
+	bd = append(bd, user)
 	fmt.Println(bd)
 
 }
@@ -89,8 +89,43 @@ func filter(w http.ResponseWriter, req *http.Request) {
 
 	for i := 0; i < len(bd); i++ {
 		if bd[i].LastName == fil.Name {
-			fmt.Println(bd[i])
+			
+			b, err := json.Marshal(bd[i])
+			if err != nil {
+				w.WriteHeader(500)
+				return
+			}
+
+			n, err := w.Write(b)
+			if err != nil {
+				w.WriteHeader(500)
+				return
+			}
+
+			fmt.Println(n)
+			return
 		}
+
+	}
+
+	for i := 0; i < len(bd); i++ {
+		if i == fil.Id {
+
+			b, err := json.Marshal(bd[i])
+			if err != nil {
+				w.WriteHeader(500)
+				return
+			}
+			n, err := w.Write(b)
+			if err != nil {
+				w.WriteHeader(500)
+				return
+			}
+
+			fmt.Println(n)
+			return
+		}
+
 	}
 }
 
