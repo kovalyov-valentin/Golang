@@ -1,15 +1,22 @@
 package main
- 
-import "fmt"
- 
-// kelvinToCelsius конвертирует °K в °C
-func kelvinToCelsius(k float64) float64 { // Объявляет функцию, что принимает параметр и возвращает результат
-    k -= 273.15
-    return k
+
+import (	
+	"fmt"		
+)
+
+type userInfo struct {
+	LastName   string `json:"last,omitempty"`
+	FirstName  string `json:"first,omitempty"`
+	MiddleName string `json:"middle,omitempty"`
 }
- 
+
+// type filters struct {
+// 	Id int `json:"id,omitempty"`
+// }
+
+var bd = make(map[int]userInfo)
+
 func main() {
-    kelvin := 294.0
-    celsius := kelvinToCelsius(kelvin) // Вызывает функцию передачи kelvin как первого аргумента
-    fmt.Println(kelvin, "° K is ", celsius, "° C") // Выводит: 294° K is 20.850000000000023° C
- }
+    n := len(bd)
+    fmt.Println(n)
+}

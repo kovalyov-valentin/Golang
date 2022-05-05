@@ -75,6 +75,7 @@ func addition(w http.ResponseWriter, req *http.Request) {
 		w.WriteHeader(500)
 		return
 	}
+	
 	var response add
 	response.C = request.A + request.B
 

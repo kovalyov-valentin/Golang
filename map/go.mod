@@ -1,4 +1,4 @@
-module github.com/Golang/uuid
+module github.com/Golang/map
 
 go 1.18
 

@@ -81,7 +81,8 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
-	
+
+	"github.com/google/uuid"
 )
 
 type userInfo struct {
@@ -94,9 +95,13 @@ type filters struct {
 	Id int `json:"id,omitempty"`
 }
 
-var bd = make(map[int]userInfo)
+type createUserProfileResponse struct {
+	Id string `json:"id,omitempty"`
+}
 
-func user(w http.ResponseWriter, req *http.Request) {
+var bd = make(map[string]userInfo)
+
+func createUserProfile(w http.ResponseWriter, req *http.Request) {
 
 	buf, err := ioutil.ReadAll(req.Body)
 	if err != nil {
@@ -105,7 +110,7 @@ func user(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	var user = make(map[int]userInfo)
+	user := userInfo{}
 
 	err = json.Unmarshal(buf, &user)
 	if err != nil {
@@ -113,6 +118,26 @@ func user(w http.ResponseWriter, req *http.Request) {
 		w.WriteHeader(500)
 		return
 	}
+
+	id := uuid.New()
+
+	bd[id.String()] = user
+
+	var response createUserProfileResponse
+
+	response.Id = id.String()
+
+	b, err := json.Marshal(&response)
+	if err != nil {
+		w.WriteHeader(500)
+		return
+	}
+	n, err := w.Write(b)
+	if err != nil {
+		w.WriteHeader(500)
+		return
+	}
+	fmt.Println(n)
 
 }
 
@@ -134,6 +159,7 @@ func listUser(w http.ResponseWriter, req *http.Request) {
 }
 
 func filter(w http.ResponseWriter, req *http.Request) {
+
 	buf, err := ioutil.ReadAll(req.Body)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
@@ -150,11 +176,10 @@ func filter(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-
 }
 
 func main() {
-	http.HandleFunc("/v1/user/name", user)
+	http.HandleFunc("/v1/user/name", createUserProfile)
 	http.HandleFunc("/v1/user/name/list", listUser)
 	http.HandleFunc("/v1/user/name/filter", filter)
 
