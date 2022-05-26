@@ -20,7 +20,7 @@ type filters struct {
 	Name string `json:"name,omitempty"`
 }
 
-// Объявляем глобальную переменную, состоящую из срезов типа name
+// Объявляем глобальную переменную, состоящую из срезов типа userProfile
 var bd []userProfile
 
 // Функция обработчика для пути /v1/user/name
@@ -34,7 +34,7 @@ func user(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	// Создаем переменную типа name
+	// Создаем переменную типа userProfile
 	var user userProfile
 
 	// Переводим байты в нужную нам структуру
