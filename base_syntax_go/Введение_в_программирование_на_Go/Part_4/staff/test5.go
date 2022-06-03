@@ -7,7 +7,7 @@ func main() {
     var i float64
     fmt.Scanf("%f", &i) 
 	
-	i := 10
+	i = 10
 
 	if i > 10 {
     fmt.Println("Big")
