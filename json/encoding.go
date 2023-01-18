@@ -22,27 +22,27 @@ func main() {
 	u1 := User{1, "Valentin", "programmer"}
 
 	// Кодируем структуру u1 в JSON с помощью функции Marshal
-	json_data, err := json.Marshal(u1)
+	jsonData, err := json.Marshal(u1)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	// Так как json_data является байтовым массивом, мы конвертируем его в строку с помощью строковой функции
-	fmt.Println(string(json_data))
+	// Так как jsonData является байтовым массивом, мы конвертируем его в строку с помощью строковой функции
+	fmt.Println(string(jsonData))
 
 	// У нас есть срез users
 	users := []User{
 		{Id: 2, Name: "Vasiliy", Occupation: "driver"},
 		{Id: 3, Name: "Ivan", Occupation: "teacher"},
-		{Id: 4, Name: "Anton", Occupation: "gandon"},
+		{Id: 4, Name: "Anton", Occupation: "manager"},
 	}
 
 	// Кодируем срез users через функцию Marshal
-	json_data2, err := json.Marshal(users)
+	jsonData2, err := json.Marshal(users)
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	// Выводим закодированный срез
-	fmt.Println(string(json_data2))
+	fmt.Println(string(jsonData2))
 }

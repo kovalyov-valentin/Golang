@@ -125,7 +125,7 @@ func calculator(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	//Записываем ответы в hhtp ответы(в body)
+	//Записываем ответы в http ответы(в body)
 	n, err := w.Write(byteRes)
 	if err != nil {
 		w.WriteHeader(500)
