@@ -77,7 +77,7 @@ func addition(w http.ResponseWriter, req *http.Request) {
 	}
 	
 	var response add
-	response.C = request.A + request.B
+	response.C = reque@juliapest.A + request.B
 
 	b, err := json.Marshal(&response)
 	if err != nil {

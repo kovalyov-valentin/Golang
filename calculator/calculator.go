@@ -39,7 +39,7 @@ func calculator(w http.ResponseWriter, req *http.Request) {
 	// Создаем переменную типа request
 	var requ request 
 
-	// Преводим байты в нужную нам структуру
+	// Преводим байты в нужную нам структуру (анмаршалим)
 	err = json.Unmarshal(buf, &requ)
 	if err != nil {
 		fmt.Println(err)
@@ -65,6 +65,11 @@ func calculator(w http.ResponseWriter, req *http.Request) {
 			operator = '-'
 		case '*':
 			operator = '*'
+		case '/':
+			operator = '/'
+		default:
+			w.WriteHeader(404)
+			return
 		}
 	}
 
@@ -97,6 +102,12 @@ func calculator(w http.ResponseWriter, req *http.Request) {
 		sum = a - b 
 	case '*':
 		sum = a * b
+	case '/':
+		if b == 0 {
+			w.WriteHeader(400)
+			return
+		}
+		sum = a / b
 	}
 	
 
